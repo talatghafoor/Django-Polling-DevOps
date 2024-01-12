@@ -19,7 +19,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 // Run Django tests
-                sh 'python manage.py test'
+                sh 'python3 manage.py test'
             }
         }
 
