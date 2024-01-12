@@ -36,7 +36,7 @@ pipeline {
     post {
         success {
             // This block will be executed if the pipeline is successful
-            sh 'ssh deployment-user@192.168.8.108 "source venv/bin/activate; \
+            sh 'ssh -o StrictHostKeyChecking=no deployment-user@192.168.8.108 "source venv/bin/activate; \
             cd Polling; \
             git pull origin main; \
             pip install -r requirements.txt --no-warn-script-location; \
