@@ -1,6 +1,5 @@
 pipeline {
     agent any
-
     stages {
         stage('Checkout') {
             steps {
@@ -37,14 +36,21 @@ pipeline {
     post {
         success {
             // This block will be executed if the pipeline is successful
-            echo 'Pipeline succeeded! Deploying...'
+            echo 'ssh deployment-user@192.168.8.108 "source venv/bin/activate; \
+            cd Polling; \
+            git pull origin main; \
+            pip install -r requirements.txt --no-warn-script-location; \
+            python3 manage.py migrate; \
+            deactivate; \
+            sudo systemctl restart nginx; \
+            sudo systemctl restart gunicorn "'
             // You may trigger a deployment to a staging or production environment here
         }
 
         failure {
             // This block will be executed if the pipeline fails
             echo 'Pipeline failed! Notify the team...'
-            // You may send notifications or perform other actions on failure
+
         }
     }
 }
