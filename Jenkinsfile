@@ -27,8 +27,8 @@ pipeline {
             steps {
                 // Your deployment steps go here
                 // This can include migrating the database, collecting static files, etc.
-                sh 'python manage.py migrate'
-                sh 'python manage.py collectstatic --noinput'
+                sh 'python3 manage.py migrate'
+                sh 'python3 manage.py collectstatic --noinput'
                 // Additional deployment steps as needed
             }
         }
