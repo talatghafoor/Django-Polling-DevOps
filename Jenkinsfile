@@ -25,7 +25,7 @@ pipeline {
             }
         }
     }
-    post {
+    post1 {
         success {
             sh 'ssh -o StrictHostKeyChecking=no deployment-user@192.168.8.114 "source venv/bin/activate; \
             cd Polling; \
@@ -49,7 +49,7 @@ pipeline {
             }
         }
     }
-    post {
+    post2 {
         success {
             sh 'ssh -o StrictHostKeyChecking=no deployment-user@192.168.8.108 "source venv/bin/activate; \
             cd Polling; \
