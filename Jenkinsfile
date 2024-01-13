@@ -78,8 +78,13 @@ pipeline {
                     sudo systemctl restart gunicorn "'
             }
         }
+        
 
         stage('Deploy-to-Production-Server') {
+            input{
+                message "Shell We Deploy to Production?"
+                ok "Yes Please!"
+            }
             steps {
                 sh 'python3 manage.py migrate'
                 sh 'python3 manage.py collectstatic --noinput'
