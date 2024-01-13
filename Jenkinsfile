@@ -18,7 +18,31 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
+        stage('Deploy-to-Staging') {
+            steps {
+                sh 'python3 manage.py migrate'
+                sh 'python3 manage.py collectstatic --noinput'
+            }
+        }
+    }
+    post {
+        success {
+            sh 'ssh -o StrictHostKeyChecking=no deployment-user@192.168.8.114 "source venv/bin/activate; \
+            cd Polling; \
+            git pull origin main; \
+            pip install -r requirements.txt --no-warn-script-location; \
+            python3 manage.py migrate; \
+            deactivate; \
+            sudo systemctl restart nginx; \
+            sudo systemctl restart gunicorn "'
+        }
+
+        failure {
+            echo 'Staging Deploy Failed....'
+
+        }
+
+        stage('Deploy-to-Production') {
             steps {
                 sh 'python3 manage.py migrate'
                 sh 'python3 manage.py collectstatic --noinput'
@@ -38,7 +62,7 @@ pipeline {
         }
 
         failure {
-            echo 'Pipeline failed! Notify the team...'
+            echo 'Production Deploy Failed....'
 
         }
     }

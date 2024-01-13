@@ -1,1 +1,1 @@
-# Django Devops
+# Django Polls 
